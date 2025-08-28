@@ -7,7 +7,8 @@ Generates different task patterns to test autoscaling behavior
 import time
 import random
 import argparse
-from celery_app import app, cpu_intensive_task, io_bound_task, mixed_task
+import math
+from app.celery_app import app, cpu_intensive_task, io_bound_task, mixed_task
 
 def submit_gradual_increase(duration_minutes=10, max_tasks_per_minute=20):
     """Submit tasks with gradual increase in frequency"""
@@ -158,5 +159,4 @@ def main():
     print("Task submission completed!")
 
 if __name__ == '__main__':
-    import math
     main()

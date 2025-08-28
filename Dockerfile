@@ -1,12 +1,13 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     gcc \
-    && rm -rf /var/lib/apt/lists/*
+    musl-dev \
+    && rm -rf /var/cache/apk/*
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
@@ -27,7 +28,7 @@ ENV C_FORCE_ROOT=true
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD wget -q --spider http://localhost:8000/health || exit 1
 
 # Default command
 CMD ["python", "app/worker.py"]

@@ -8,6 +8,12 @@ import time
 import random
 import argparse
 import math
+import sys
+import os
+
+# Add the current directory to Python path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from app.celery_app import app, cpu_intensive_task, io_bound_task, mixed_task
 
 def submit_gradual_increase(duration_minutes=10, max_tasks_per_minute=20):
